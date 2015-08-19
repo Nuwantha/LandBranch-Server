@@ -26,7 +26,7 @@ public class ClientController {
         try {
             readWriteLock.writeLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Insert into Client Values('"+client.getRegNo()+"'," + client.getNIC() + "','" + client.getClientName() + "','" + client.getBirthday() + "','" + client.getTelephone() + "','" + client.getAddress() + "','" + client.getAnnualIncome() + "','" + client.getGrantOwnershipPosition() + "','" + client.getPermitOwnershipPosition() + "','" + client.isMarried() + "','" + client.getNumberOfMarriedSons() + "','" + client.getNumberOfUnmarriedSons() + "');";
+            String sql = "Insert into Client Values('"+client.getRegNo()+"'," + client.getNIC() + "','" + client.getClientName() + "','" + client.getBirthday() + "','" + client.getTelephone() + "','" + client.getAddress() + "','" + client.getAnnualIncome() + "','" + client.getGrantOwnershipPosition() + "','" + client.getPermitOwnershipPosition() + "','" + client.isMarried() + "','" + client.getNumberOfMarriedSons() + "','" + client.getNumberOfUnmarriedSons() + "')";
             int returnValue = DBHandler.setData(conn, sql);
 
             return returnValue > 0;
@@ -49,7 +49,7 @@ public class ClientController {
                 if (!aBoolean) {
                     marriedStatus = 0;
                 }
-                Client client = new Client(rst.getString("NIC"), rst.getString("ClientName"), rst.getString("Birthday"), rst.getString("Telephone"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("GrantOwnershipPosition"), rst.getInt("PermitOwnershipPosition"), marriedStatus, rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
+                Client client = new Client(rst.getInt("RegNo"),rst.getString("NIC"), rst.getString("ClientName"), rst.getString("Birthday"), rst.getString("Telephone"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("GrantOwnershipPosition"), rst.getInt("PermitOwnershipPosition"), marriedStatus, rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
                 return client;
             } else {
                 return null;
@@ -73,7 +73,7 @@ public class ClientController {
                 if (!aBoolean) {
                     marriedStatus = 0;
                 }
-                Client client = new Client(rst.getString("NIC"), rst.getString("ClientName"), rst.getString("Birthday"), rst.getString("Telephone"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("GrantOwnershipPosition"), rst.getInt("PermitOwnershipPosition"), marriedStatus, rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
+                Client client = new Client(rst.getInt("RegNo"),rst.getString("NIC"), rst.getString("ClientName"), rst.getString("Birthday"), rst.getString("Telephone"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("GrantOwnershipPosition"), rst.getInt("PermitOwnershipPosition"), marriedStatus, rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
                 clientList.add(client);
             }
             return clientList;
@@ -134,7 +134,7 @@ public class ClientController {
                 if (!aBoolean) {
                     marriedStatus = 0;
                 }
-                Client client = new Client(rst.getInt("regNo"),rst.getString("NIC"), rst.getString("ClientName"), rst.getString("Birthday"), rst.getString("Telephone"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("GrantOwnershipPosition"), rst.getInt("PermitOwnershipPosition"), marriedStatus, rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
+                Client client = new Client(rst.getInt("RegNo"),rst.getString("NIC"), rst.getString("ClientName"), rst.getString("Birthday"), rst.getString("Telephone"), rst.getString("Address"), rst.getDouble("AnnualIncome"), rst.getInt("GrantOwnershipPosition"), rst.getInt("PermitOwnershipPosition"), marriedStatus, rst.getInt("NumberOfMarriedSons"), rst.getInt("NumberOfUnmarriedSons"));
                 clientList.add(client);
             }
             return clientList;
@@ -148,7 +148,7 @@ public class ClientController {
             readWriteLock.readLock().lock();
 
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select * From Clients order by reg Desc limit 1";
+            String sql = "Select * From Client order by RegNo Desc limit 1";
             ResultSet rst = DBHandler.getData(conn, sql);
             if (rst.next()) {
 
