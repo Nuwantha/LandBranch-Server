@@ -270,3 +270,4 @@ INSERT INTO USER values('Nalaka',(select password('1234')),3);
 INSERT INTO USER values('Gayan',(select password('1234')),3);
 
 
+
