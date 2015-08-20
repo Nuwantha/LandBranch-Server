@@ -69,8 +69,8 @@ public class GrantControllerImple extends UnicastRemoteObject implements las.con
     }
 
     @Override
-    public ArrayList<Grant> getSimilarPermitsByNIC(String nicpart) throws RemoteException, ClassNotFoundException, SQLException {
-        return grantController.getSimilarPermitsByNIC(nicpart);//To change body of generated methods, choose Tools | Templates.
+    public ArrayList<Grant> getSimilarGrantsByNIC(String nicpart) throws RemoteException, ClassNotFoundException, SQLException {
+        return grantController.getSimilarGrantsByNIC(nicpart);//To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

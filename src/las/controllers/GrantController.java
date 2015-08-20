@@ -175,7 +175,6 @@ public class GrantController {
                 grantList.add(grant);
             }
             return grantList;
-
         } finally {
             readWriteLock.readLock().lock();
         }
@@ -203,7 +202,7 @@ public class GrantController {
         }
     }
 
-    public static ArrayList<Grant> getSimilarPermitsByNIC(String nicpart) throws ClassNotFoundException, SQLException {
+    public static ArrayList<Grant> getSimilarGrantsByNIC(String nicpart) throws ClassNotFoundException, SQLException {
         try {
             readWriteLock.readLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
