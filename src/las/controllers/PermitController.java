@@ -49,7 +49,7 @@ public class PermitController {
                         if (updateClient > 0) {
                             System.out.println("client updated");
                             Lot lot = permit.getLot();
-                        // int position = ClientController.getnextOwnershiPositionPermit(permit.getPermitNumber());
+                            // int position = ClientController.getnextOwnershiPositionPermit(permit.getPermitNumber());
                             //1 mean not avialabel
                             lot.setIsAvilable(1);
                             boolean updateLot = LotController.updateLot(lot);
@@ -421,19 +421,52 @@ public class PermitController {
         }
     }
 
-    public boolean addGramaNiladaryCertificateToPermit(Permit permit) throws ClassNotFoundException, SQLException {
+    public static boolean addGramaNiladaryCertificateToPermit(Permit permit) throws ClassNotFoundException, SQLException {
         try {
-        
+
             readWriteLock.writeLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Update permit set certified = '"+permit.getCertified()+"' where permitNumber = '" + permit.getPermitNumber() + "'";
+            String sql = "Update permit set certified = '" + permit.getCertified() + "' where permitNumber = '" + permit.getPermitNumber() + "'";
             int returnPermitDelete = DBHandler.setData(conn, sql);
-            return returnPermitDelete>0;        
-        
+            return returnPermitDelete > 0;
+
         } finally {
-            
+
             readWriteLock.writeLock().unlock();
-        
+
+        }
+    }
+
+    public static ArrayList<Permit> getPermitSuitableForGrant(String permitNumberPart) throws ClassNotFoundException, SQLException {
+        try {
+            readWriteLock.readLock().lock();
+            Connection conn = DBConnection.getDBConnection().getConnection();
+            String sql = "Select * from Permit where certified =1 and havegrant =0 and datediff(curdate(),permitissueDate) >365 and permitNumber like '" + permitNumberPart + "%' ";
+            ResultSet rst = DBHandler.getData(conn, sql);
+            ArrayList<Permit> permitList = new ArrayList<>();
+            while (rst.next()) {
+                Client client = ClientController.searchClient(rst.getString("NIC"));
+                Lot searchLot = LotController.searchLot(rst.getString("LotNumber"));
+                NominatedSuccessor searchNominateSuccessor = NominatedSuccessorController.searchNominateSuccessor(rst.getString("NIC_Successor"));
+                Permit permit = new Permit(rst.getString("PermitNumber"), rst.getString("PermitIssueDate"), searchLot, client, searchNominateSuccessor);
+                permitList.add(permit);
+            }
+            return permitList;
+        } finally {
+            readWriteLock.readLock().unlock();
+        }
+
+    }
+
+    public static boolean addGrantToPermit(Permit permit) throws ClassNotFoundException, SQLException {
+        try {
+            readWriteLock.writeLock().lock();
+            Connection conn = DBConnection.getDBConnection().getConnection();
+            String sql = "Update permit set havegrant = '" + permit.getHaveGrant() + "' where permitNumber = '" + permit.getPermitNumber() + "'";
+            int returnPermitDelete = DBHandler.setData(conn, sql);
+            return returnPermitDelete > 0;
+        } finally {
+            readWriteLock.writeLock().unlock();
         }
     }
 

@@ -28,7 +28,7 @@ public class LotController {
             readWriteLock.writeLock().lock();
 
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Insert into Lot Values('" + lot.getLotNumber() + "','" + lot.getNumberOfAcres() + "','" + lot.getNumberOfPerches() + "','" + lot.getNumberofRoods() + "','" + lot.getLand().getPlanNumber() + "')";
+            String sql = "Insert into Lot Values('" + lot.getLotNumber() + "','" + lot.getNumberOfAcres() + "','" + lot.getNumberOfPerches() + "','" + lot.getNumberofRoods() + "','" + lot.getLand().getPlanNumber() + "','"+lot.getIsAvilable()+"')";
             int returnValue = DBHandler.setData(conn, sql);
             return returnValue > 0;
         } finally {

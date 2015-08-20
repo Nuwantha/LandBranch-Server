@@ -148,7 +148,7 @@ public class GramaNiladariDivisionController {
         try {
             readWriteLock.readLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "select * from permit natural join lot natural join land natural join gnd where certified=0 and datediff(curdate(),permitissuedate)>300 and gnd.divisionnumber='" + divisionnumber + "' ;";
+            String sql = "select * from permit natural join lot natural join land natural join gnd where certified=0 and datediff(curdate(),permitissuedate)>365 and gnd.divisionnumber='" + divisionnumber + "' ;";
             ResultSet rst = DBHandler.getData(conn, sql);
             ArrayList<Permit> permitList = new ArrayList<>();
             while (rst.next()) {

@@ -50,12 +50,9 @@ public class GrantController {
     }
 
     public static boolean addNewGrant(Grant grant) throws ClassNotFoundException, SQLException {
-
         try {
-
             readWriteLock.writeLock().lock();
-
-            boolean returnStatue;
+            boolean returnStatue=true;
             Connection conn = DBConnection.getDBConnection().getConnection();
             conn.setAutoCommit(false);
             try {
@@ -64,10 +61,19 @@ public class GrantController {
                 if (returnGrantInsert > 0) {
                     Client client = grant.getClient();
                     int position = ClientController.getnextOwnershiPositionGrant(grant.getGrantNumber());
-                    client.setPermitOwnershipPosition(position);
+                    client.setGrantOwnershipPosition(position);
                     int updateClient = ClientController.updateClient(client);
                     if (updateClient > 0) {
-                        returnStatue = true;
+                        Permit permit = grant.getPermit();
+                        permit.setHaveGrant(1);
+                        boolean addGrantToPermit = PermitController.addGrantToPermit(permit);
+                        if (addGrantToPermit) {
+                        
+                        } else {
+                            returnStatue = false;
+                            conn.rollback();
+                        }
+
                     } else {
                         returnStatue = false;
                         conn.rollback();

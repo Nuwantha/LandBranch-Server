@@ -97,4 +97,14 @@ public class PermitControllerImple extends UnicastRemoteObject implements las.co
         return permitController.addGramaNiladaryCertificateToPermit(permit);//To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public ArrayList<Permit> getPermitSuitableForGrant(String permitNumberPart) throws ClassNotFoundException, SQLException, RemoteException {
+        return permitController.getPermitSuitableForGrant(permitNumberPart);//To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean addGrantToPermit(Permit permit) throws ClassNotFoundException, SQLException, RemoteException {
+        return permitController.addGrantToPermit(permit);//To change body of generated methods, choose Tools | Templates.
+    }
+
 }
