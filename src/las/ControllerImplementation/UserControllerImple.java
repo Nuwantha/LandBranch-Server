@@ -57,6 +57,6 @@ public class UserControllerImple extends UnicastRemoteObject implements las.cont
 
     @Override
     public ArrayList<User> getAllSimilarUsers(String typed) throws RemoteException, ClassNotFoundException, SQLException {
-        return userController.getAllSimilarUsers(typed); //To change body of generated methods, choose Tools | Templates.
+        return userController.getAllSimilarUsers(typed); 
     }
 }

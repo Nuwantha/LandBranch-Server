@@ -72,7 +72,7 @@ public class UserController{
             ResultSet rst = DBHandler.getData(conn, sql);
             ArrayList<User> users = new ArrayList<>();
             while (rst.next()) {
-                User user = new User(rst.getString("name"), rst.getString("password"), rst.getInt("power"));
+                User user = new User(rst.getString("username"), rst.getString("password"), rst.getInt("power"));
                 users.add(user);
             }
             return users;
