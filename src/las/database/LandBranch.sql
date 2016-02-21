@@ -55,7 +55,7 @@ CREATE TABLE Client(
 	ClientName VARCHAR(10),
 	Birthday DATE,
 	Telephone INT(10),
-	Address VARCHAR(100),
+	Address VARCHAR(1000),
 	AnnualIncome DECIMAL(10,2),
 	GrantOwnershipPosition INT(2),
 	PermitOwnershipPosition INT(2),
