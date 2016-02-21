@@ -75,6 +75,11 @@ public class ClientControllerImple extends UnicastRemoteObject implements Client
         return  clientController.getSimilarNames(namePart);//To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public boolean deleteClient(Client client) throws ClassNotFoundException, SQLException, RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
    
     
 }
