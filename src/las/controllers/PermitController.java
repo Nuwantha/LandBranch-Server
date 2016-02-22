@@ -441,7 +441,7 @@ public class PermitController {
         try {
             readWriteLock.readLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select * from Permit where certified =1 and havegrant =0 and datediff(curdate(),permitissueDate) >365 and permitNumber like '" + permitNumberPart + "%' ";
+            String sql = "Select * from permit where certified =1 and havegrant =0 and datediff(curdate(),permitissueDate) >365 and permitNumber like '" + permitNumberPart + "%' ";
             ResultSet rst = DBHandler.getData(conn, sql);
             ArrayList<Permit> permitList = new ArrayList<>();
             while (rst.next()) {
@@ -457,6 +457,30 @@ public class PermitController {
         }
 
     }
+
+   public static ArrayList<Permit> getAllPermitsReadytoGrant() throws ClassNotFoundException, SQLException {
+        try {
+            readWriteLock.readLock().lock();
+            Connection conn = DBConnection.getDBConnection().getConnection();
+            String sql = "Select * From permit where haveGrant =0";
+            ResultSet rst = DBHandler.getData(conn, sql);
+            ArrayList<Permit> permitList = new ArrayList<>();
+            while (rst.next()) {
+                Client searchClient = ClientController.searchClient(rst.getString("NIC"));
+                Lot searchLot = LotController.searchLot(rst.getString("LotNumber"));
+                NominatedSuccessor searchNominateSuccessor = NominatedSuccessorController.searchNominateSuccessor(rst.getString("NIC_Successor"));
+                Permit permit = new Permit(rst.getString("PermitNumber"), rst.getString("PermitIssueDate"), searchLot, searchClient, searchNominateSuccessor);
+                permitList.add(permit);
+            }
+            return permitList;
+        } finally {
+            readWriteLock.readLock().unlock();
+        }
+    }
+    
+    
+ 
+    
 
     public static boolean addGrantToPermit(Permit permit) throws ClassNotFoundException, SQLException {
         try {

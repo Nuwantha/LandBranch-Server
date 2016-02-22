@@ -104,5 +104,15 @@ public class PermitControllerImple extends UnicastRemoteObject implements las.co
     public boolean addGrantToPermit(Permit permit) throws ClassNotFoundException, SQLException, RemoteException {
         return permitController.addGrantToPermit(permit);//To change body of generated methods, choose Tools | Templates.
     }
+    @Override
+    public ArrayList<Permit> getAllPermitsReadytoGrant() throws RemoteException,SQLException, ClassNotFoundException{
+        return permitController.getAllPermitsReadytoGrant();
+    }
+    
+    
+    
+    
+    
+    
 
 }
