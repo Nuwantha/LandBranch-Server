@@ -220,7 +220,6 @@ public class LandController {
                     conn.commit();
                 }
             } catch (SQLException error) {
-                error.printStackTrace();
                 returnValue = false;
                 conn.rollback();
             } finally {
@@ -229,7 +228,7 @@ public class LandController {
 
             return returnValue;
         } finally {
-            readWriteLock.readLock().unlock();
+            readWriteLock.writeLock().unlock();
         }
 
     }
