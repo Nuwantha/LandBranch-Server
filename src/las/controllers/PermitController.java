@@ -254,7 +254,7 @@ public class PermitController {
         try {
             readWriteLock.readLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select * from client right join permit on client.NIC=permit.NIC where ClientName like '%" + namepart + "%'";
+            String sql = "Select * from client right join permit on client.NIC=permit.NIC where ClientName like '" + namepart + "%'";
             ResultSet rst = DBHandler.getData(conn, sql);
             ArrayList<Permit> permitList = new ArrayList<>();
             while (rst.next()) {
@@ -392,7 +392,7 @@ public class PermitController {
                 boolean addNewClient = ClientController.addNewClient(permit.getClient());
                 if (addNewClient) {
                     System.err.println("new client added");
-                    String sql = "Insert into permit Values('" + permit.getPermitNumber() + "','" + permit.getPermitIssueDate() + "','" + permit.getLot().getLotNumber() + "','" + permit.getClient().getNIC() + "','" + permit.getNominatedSuccessor().getNIC_S() + "','" + permit.getHaveGrant() + "')";
+                    String sql = "Insert into permit Values('" + permit.getPermitNumber() + "','" + permit.getPermitIssueDate() + "','" + permit.getLot().getLotNumber() + "','" + permit.getClient().getNIC() + "','" + permit.getNominatedSuccessor().getNIC_S() + "','" + permit.getHaveGrant() + "','"+permit.getCertified()+"')";
                     int returnPermitInsert = DBHandler.setData(conn, sql);
                     if (returnPermitInsert > 0) {
                         System.out.println("permit aded");
