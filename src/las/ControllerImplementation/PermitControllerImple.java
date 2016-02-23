@@ -59,7 +59,7 @@ public class PermitControllerImple extends UnicastRemoteObject implements las.co
 
     @Override
     public Permit searchPermitByClient(String NIC) throws RemoteException, ClassNotFoundException, SQLException {
-        return  permitController.searchPermit(NIC);
+        return  permitController.searchPermitByClient(NIC);
     }
 
     @Override
@@ -89,7 +89,7 @@ public class PermitControllerImple extends UnicastRemoteObject implements las.co
 
     @Override
     public boolean changePermitOwnership(Permit permit) throws ClassNotFoundException, SQLException, RemoteException {
-        return permitController.cancelPermit(permit);//To change body of generated methods, choose Tools | Templates.
+        return permitController.changePermitOwnership(permit);//To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

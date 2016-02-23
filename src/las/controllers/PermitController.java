@@ -34,11 +34,12 @@ public class PermitController {
             boolean returnStatue = true;
             Connection conn = DBConnection.getDBConnection().getConnection();
             conn.setAutoCommit(false);
+            System.out.println("permit");
             try {
                 boolean addNewNominateSuccessor = NominatedSuccessorController.addNewNominateSuccessor(permit.getNominatedSuccessor());
                 if (addNewNominateSuccessor) {
                     System.out.println("nominate succssor added");
-                    String sql = "Insert into permit Values('" + permit.getPermitNumber() + "','" + permit.getPermitIssueDate() + "','" + permit.getLot().getLotNumber() + "','" + permit.getClient().getNIC() + "','" + permit.getNominatedSuccessor().getNIC_S() + "','" + permit.getHaveGrant() + "')";
+                    String sql = "Insert into permit Values('" + permit.getPermitNumber() + "','" + permit.getPermitIssueDate() + "','" + permit.getLot().getLotNumber() + "','" + permit.getClient().getNIC() + "','" + permit.getNominatedSuccessor().getNIC_S() + "','" + permit.getHaveGrant() + "','"+permit.getCertified()+"')";
                     int returnPermitInsert = DBHandler.setData(conn, sql);
                     if (returnPermitInsert > 0) {
                         System.out.println("permit added");
