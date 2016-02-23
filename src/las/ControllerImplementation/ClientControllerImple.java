@@ -67,7 +67,7 @@ public class ClientControllerImple extends UnicastRemoteObject implements Client
 
     @Override
     public int getnextOwnershiPositionGrant(String grantNumber) throws RemoteException, SQLException, ClassNotFoundException {
-        return clientController.getnextOwnershiPositionPermit(grantNumber);//To change body of generated methods, choose Tools | Templates.
+        return clientController.getnextOwnershiPositionGrant(grantNumber);//To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -77,6 +77,7 @@ public class ClientControllerImple extends UnicastRemoteObject implements Client
 
     @Override
     public boolean deleteClient(Client client) throws ClassNotFoundException, SQLException, RemoteException {
+       
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

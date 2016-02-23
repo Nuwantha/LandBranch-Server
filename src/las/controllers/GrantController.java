@@ -31,13 +31,13 @@ public class GrantController {
 
             readWriteLock.readLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select * from Grant where grantNumber='" + grantNumber + "'";
+            String sql = "Select * from Grant1 where grantNumber='" + grantNumber + "'";
             ResultSet rst = DBHandler.getData(conn, sql);
             if (rst.next()) {
                 Permit searchPermit = PermitController.searchPermit(rst.getString("permitnumber"));
                 Client client = ClientController.searchClient(rst.getString("NIC"));
                 Lot searchLot = LotController.searchLot(rst.getString("LotNumber"));
-                NominatedSuccessor searchNominateSuccessor = NominatedSuccessorController.searchNominateSuccessor("NICS");
+                NominatedSuccessor searchNominateSuccessor = NominatedSuccessorController.searchNominateSuccessor(rst.getString("NIC_Successor"));
                 Grant grant = new Grant(rst.getString("GrantNumber"), rst.getString("GrantIssueDate"), searchPermit, searchLot, client, searchNominateSuccessor);
                 return grant;
             } else {
@@ -55,20 +55,29 @@ public class GrantController {
             boolean returnStatue=true;
             Connection conn = DBConnection.getDBConnection().getConnection();
             conn.setAutoCommit(false);
+            System.out.println(grant.getLot().getLotNumber());
+            System.out.println( grant.getClient().getNIC());
+            System.out.println(grant.getNominatedSuccessor().getNIC_S());
+           
             try {
                 String sql = "Insert into GRANT1 Values('" + grant.getGrantNumber() + "','" + grant.getGrantIssueDate() + "','" + grant.getPermit().getPermitNumber() + "','" + grant.getLot().getLotNumber() + "','" + grant.getClient().getNIC() + "','" + grant.getNominatedSuccessor().getNIC_S() + "')";
                 int returnGrantInsert = DBHandler.setData(conn, sql);
                 if (returnGrantInsert > 0) {
+                    System.out.println("grant added");
                     Client client = grant.getClient();
                     int position = ClientController.getnextOwnershiPositionGrant(grant.getGrantNumber());
+                    System.out.println(position);
                     client.setGrantOwnershipPosition(position);
+                    
                     int updateClient = ClientController.updateClient(client);
+                    System.out.println(updateClient);
                     if (updateClient > 0) {
+                        System.out.println("update client");
                         Permit permit = grant.getPermit();
                         permit.setHaveGrant(1);
                         boolean addGrantToPermit = PermitController.addGrantToPermit(permit);
                         if (addGrantToPermit) {
-                        
+                            System.out.println("add grant to permit");
                         } else {
                             returnStatue = false;
                             conn.rollback();
@@ -127,7 +136,9 @@ public class GrantController {
                 Permit searchPermit = PermitController.searchPermit(rst.getString("PermitNumber"));
                 Client searchClient = ClientController.searchClient(rst.getString("NIC"));
                 Lot searchLot = LotController.searchLot(rst.getString("LotNumber"));
+               // System.out.println(rst.getString("NIC_Successor"));
                 NominatedSuccessor searchNominateSuccessor = NominatedSuccessorController.searchNominateSuccessor(rst.getString("NIC_Successor"));
+                System.out.println(searchNominateSuccessor.getNIC_S());
                 Grant grant = new Grant(rst.getString("GrantNumber"), rst.getString("GrantIssueDate"), searchPermit, searchLot, searchClient, searchNominateSuccessor);
                 grantList.add(grant);
             }
@@ -319,4 +330,29 @@ public class GrantController {
         }
     }
 
+     public static ArrayList<Grant> getAllGrant() throws ClassNotFoundException, SQLException {
+        try {
+            readWriteLock.readLock().lock();
+            Connection conn = DBConnection.getDBConnection().getConnection();
+            String sql = "Select * from grant1 ";
+            ResultSet rst = DBHandler.getData(conn, sql);
+            ArrayList<Grant> grantList = new ArrayList<>();
+            while (rst.next()) {
+                Client searchClient = ClientController.searchClient(rst.getString("NIC"));
+                Lot searchLot = LotController.searchLot(rst.getString("LotNumber"));
+                NominatedSuccessor searchNominateSuccessor = NominatedSuccessorController.searchNominateSuccessor(rst.getString("NIC_Successor"));
+                Permit searchPermit = PermitController.searchPermit(rst.getString("PermitNUmber"));
+
+                //   Permit searchPermit = new Permit(rst.getString("PermitNumber"), rst.getString("PermitIssueDate"), searchLot, searchClient, searchNominateSuccessor);
+                Grant grant = new Grant(rst.getString("GrantNumber"), rst.getString("GrantIssueDate"), searchPermit, searchLot, searchClient, searchNominateSuccessor);
+                grantList.add(grant);
+            }
+            return grantList;
+
+        } finally {
+            readWriteLock.readLock().lock();
+        }
+    }
+
+    
 }

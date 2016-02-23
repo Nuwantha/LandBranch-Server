@@ -75,6 +75,11 @@ public class GrantControllerImple extends UnicastRemoteObject implements las.con
 
     @Override
     public boolean changeNominatedSuccessorGrant(Grant grant, NominatedSuccessor newSuccessor) throws RemoteException, ClassNotFoundException, SQLException {
-        return grantController.changeNominatedSuccessorGrant(grant, newSuccessor);
+        return grantController.changeNominatedSuccessorGrant(grant, newSuccessor);    }
+
+
+    @Override
+    public ArrayList<Grant> getAllGrant() throws RemoteException, ClassNotFoundException, SQLException {
+        return grantController.getAllGrant(); //To change body of generated methods, choose Tools | Templates.
     }
 }

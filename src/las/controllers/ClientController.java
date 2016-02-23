@@ -172,11 +172,11 @@ public class ClientController {
             readWriteLock.readLock().lock();
 
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select ownershipPositionPermit From Client natural join permit where permitNumber ='" + permitNumber + "'  order by ownershipPositionPermit Desc limit 1";
+            String sql = "Select PermitOwnershipPosition From Client natural join permit where permitNumber ='" + permitNumber + "'  order by PermitOwnershipPosition Desc limit 1";
             ResultSet rst = DBHandler.getData(conn, sql);
             int position = 1;
             if (rst.next()) {
-                position = rst.getInt("ownershipPositionPermit") + 1;
+                position = rst.getInt("PermitOwnershipPosition") + 1;
             }
 
             return position;
@@ -189,11 +189,11 @@ public class ClientController {
         try {
             readWriteLock.readLock().lock();
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "Select ownershipPositionGrant From Client natural join grant where grantNumber ='" + grantNumber + "'  order by ownershipPositionGrant Desc limit 1";
+            String sql = "Select GrantOwnershipPosition From Client natural join grant1 where grantNumber ='" + grantNumber + "'  order by GrantOwnershipPosition Desc limit 1";
             ResultSet rst = DBHandler.getData(conn, sql);
             int position = 1;
             if (rst.next()) {
-                position = rst.getInt("ownershipPositionPermit") + 1;
+                position = rst.getInt("GrantOwnershipPosition") + 1;
             }
 
             return position;
