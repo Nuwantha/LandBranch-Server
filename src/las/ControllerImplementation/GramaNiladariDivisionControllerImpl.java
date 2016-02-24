@@ -66,5 +66,11 @@ public class GramaNiladariDivisionControllerImpl extends UnicastRemoteObject imp
         return gnd.getPermitsToCertify(divisionnumber);
 
     }
+    
+    @Override
+    public ArrayList<Permit> getAllPermitsToCertify() throws SQLException, ClassNotFoundException {
+        return gnd.getAllPermitsToCertify();
+
+    }
 
 }

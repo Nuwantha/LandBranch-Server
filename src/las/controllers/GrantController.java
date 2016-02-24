@@ -111,7 +111,7 @@ public class GrantController {
             readWriteLock.readLock().lock();
 
             Connection conn = DBConnection.getDBConnection().getConnection();
-            String sql = "select count(distinct grantNumber) as grantCount from grant natural join lot natural join land where divisionNumber ='" + divisionNumber + "'";
+            String sql = "select count(distinct grantNumber) as grantCount from grant1 natural join lot natural join land where divisionNumber ='" + divisionNumber + "'";
             ResultSet rst = DBHandler.getData(conn, sql);
             int grantCount = 0;
             if (rst.next()) {
