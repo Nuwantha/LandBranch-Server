@@ -22,8 +22,8 @@ public class LandBranchServer {
      */
     public static void main(String[] args) throws RemoteException {
         try {
-            System.setProperty("java.rmi.server.hostname", "192.168.1.24");
-            Registry myRegistry = LocateRegistry.createRegistry(1099);
+            System.setProperty("java.rmi.server.hostname", "127.0.0.1");
+            Registry myRegistry = LocateRegistry.createRegistry(344);
             myRegistry.rebind("LandBranchServer", new RemoteFactoryImple());
             System.out.println("LandBranch server started...");
         } catch (ExportException e) {

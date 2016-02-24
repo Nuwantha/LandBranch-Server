@@ -27,7 +27,7 @@ public class UserController{
             readWriteLock.writeLock().lock();
             DBConnection dbconn = DBConnection.getDBConnection();
             Connection conn = dbconn.getConnection();
-            String sql = "Insert into User Values('" + user.getName() + "','" + user.getPassword() + "'," + user.getPower() + ")";
+            String sql = "Insert into User Values('" + user.getName() + "', (select password('" + user.getPassword() + "')),'" + user.getPower() + "')";
             int res = DBHandler.setData(conn, sql);
             return res;
         } finally {
